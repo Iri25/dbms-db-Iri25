@@ -1,4 +1,4 @@
-sgbd-Iri25
+sgbd-db-Iri25
 
 The following functionalities are implemented:
 
