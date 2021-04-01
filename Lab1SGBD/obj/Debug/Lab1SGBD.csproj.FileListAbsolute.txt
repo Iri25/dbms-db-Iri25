@@ -1,0 +1,10 @@
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.csprojAssemblyReference.cache
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.Form1.resources
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.Properties.Resources.resources
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.csproj.GenerateResource.cache
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.csproj.CoreCompileInputs.cache
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\bin\Debug\Lab1SGBD.exe.config
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\bin\Debug\Lab1SGBD.exe
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\bin\Debug\Lab1SGBD.pdb
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.exe
+C:\Users\HP\Desktop\Lab1SGBD\Lab1SGBD\obj\Debug\Lab1SGBD.pdb
