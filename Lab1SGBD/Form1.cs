@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -79,7 +79,7 @@ namespace Lab1SGBD
             }
         }
 
-        private void dataGridView1_RowHeaderMouseDoubleClick_2(object sender, DataGridViewCellMouseEventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -87,6 +87,9 @@ namespace Lab1SGBD
                 {
                     if (dataSet.Tables.Contains("Servicii"))
                         dataSet.Tables["Servicii"].Clear();
+
+
+                    connection.Open();
 
                     string id_serviciu = textBox1.Text;
                     DataGridViewRow dataGridViewRow = dataGridView1.Rows[e.RowIndex];
@@ -95,19 +98,21 @@ namespace Lab1SGBD
                     string descriere = textBox3.Text;
                     string pret = textBox4.Text;
 
-                    dataAdapterChild.SelectCommand = new SqlCommand("INSERT INTO Servicii (id_serviciu, numar_inregistrare_sediu, denumire, descriere, pret) VALUES" +
-                    "(@id_serviciu, @numar_inregistrare_sediu, @denumire, @descriere, @pret);", connection);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@id_serviciu", id_serviciu);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@numar_inregistrare_sediu", id);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@denumire", denumire);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@descriere", descriere);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@pret", pret);
+                    dataAdapterChild.InsertCommand = new SqlCommand("INSERT INTO Servicii (id_serviciu, numar_inregistrare_sediu, denumire, descriere, pret) VALUES (@id_serviciu, @numar_inregistrare_sediu, @denumire, @descriere, @pret);", connection);
+                    dataAdapterChild.InsertCommand.Parameters.AddWithValue("@id_serviciu", id_serviciu);
+                    dataAdapterChild.InsertCommand.Parameters.AddWithValue("@numar_inregistrare_sediu", id);
+                    dataAdapterChild.InsertCommand.Parameters.AddWithValue("@denumire", denumire);
+                    dataAdapterChild.InsertCommand.Parameters.AddWithValue("@descriere", descriere);
+                    dataAdapterChild.InsertCommand.Parameters.AddWithValue("@pret", pret);
+
                     MessageBox.Show("Successful insertion!");
+                    dataAdapterChild.InsertCommand.ExecuteNonQuery();
 
                     dataAdapterChild.SelectCommand = new SqlCommand("SELECT * FROM Servicii WHERE Servicii.numar_inregistrare_sediu = @numar_inregistrare;", connection);
                     dataAdapterChild.SelectCommand.Parameters.AddWithValue("@numar_inregistrare", id);
 
                     dataAdapterChild.Fill(dataSet, "Servicii");
+                    dataAdapterChild.Update(dataSet, "Servicii");
                     dataGridView2.DataSource = dataSet.Tables["Servicii"];
                 }
             }
@@ -119,27 +124,34 @@ namespace Lab1SGBD
         }
 
 
-        private void dataGridView2_RowHeaderMouseClick_1(object sender, DataGridViewCellMouseEventArgs e)
+        private void dataGridView2_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         { 
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    connection.Open();
+
                     DataGridViewRow dataGridViewRow = dataGridView2.Rows[e.RowIndex];
                     var id = dataGridViewRow.Cells[0].Value;
                     string nou = textBox5.Text;
 
-                    dataAdapterChild.SelectCommand = new SqlCommand("UPDATE Servicii SET Servicii.pret = @pret WHERE Servicii.id_serviciu = @id_serviciu;", connection);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@pret", nou);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@id_serviciu", id);
+                    dataAdapterChild.UpdateCommand = new SqlCommand("UPDATE Servicii SET pret = @pret WHERE id_serviciu = @id_serviciu;", connection);
+                    dataAdapterChild.UpdateCommand.Parameters.AddWithValue("@pret", nou);
+                    dataAdapterChild.UpdateCommand.Parameters.AddWithValue("@id_serviciu", id);
+
                     MessageBox.Show("Successful update!");
+                    dataAdapterChild.UpdateCommand.ExecuteNonQuery();
 
                     if (dataSet.Tables.Contains("Servicii"))
                         dataSet.Tables["Servicii"].Clear();
 
                     dataAdapterChild.SelectCommand = new SqlCommand("SELECT * FROM Servicii;", connection);
                     dataAdapterChild.Fill(dataSet, "Servicii");
+                    dataAdapterChild.Update(dataSet, "Servicii");
                     dataGridView2.DataSource = dataSet.Tables["Servicii"];
+
+                    connection.Close();
                 }
             }
             catch (Exception ex)
@@ -148,26 +160,31 @@ namespace Lab1SGBD
             }
         }
 
-
-        private void dataGridView2_RowHeaderMouseDoubleClick_2(object sender, DataGridViewCellMouseEventArgs e)
+        private void dataGridView2_RowHeaderMouseClick_1(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
+                    connection.Open();
+
                     DataGridViewRow dataGridViewRow = dataGridView2.Rows[e.RowIndex];
                     var id = dataGridViewRow.Cells[0].Value;
+                    dataAdapterChild.DeleteCommand = new SqlCommand("DELETE FROM Servicii WHERE id_serviciu = @id_serviciu;", connection);
+                    dataAdapterChild.DeleteCommand.Parameters.AddWithValue("@id_serviciu", id);
 
-                    dataAdapterChild.SelectCommand = new SqlCommand("DELETE FROM Servicii WHERE Servicii.id_serviciu = @id_serviciu;", connection);
-                    dataAdapterChild.SelectCommand.Parameters.AddWithValue("@id_serviciu", id);
                     MessageBox.Show("Successful deleted!");
+                    dataAdapterChild.DeleteCommand.ExecuteNonQuery();
 
                     if (dataSet.Tables.Contains("Servicii"))
                         dataSet.Tables["Servicii"].Clear();
 
                     dataAdapterChild.SelectCommand = new SqlCommand("SELECT * FROM Servicii;", connection);
                     dataAdapterChild.Fill(dataSet, "Servicii");
+                    dataAdapterChild.Update(dataSet, "Servicii");
                     dataGridView2.DataSource = dataSet.Tables["Servicii"];
+
+                    connection.Close();
                 }
             }
             catch (Exception ex)
