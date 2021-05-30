@@ -1,4 +1,4 @@
-sgbd-db-Iri25
+Database Management Systems
 
 The following functionalities are implemented:
 
